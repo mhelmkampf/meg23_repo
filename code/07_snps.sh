@@ -57,8 +57,8 @@ ml VCFtools/0.1.16-GCC-8.3.0   # load VCFtools module
 ### Filter sites (rows)
 vcftools \
     --gzvcf snps_hamlets_lg12.vcf.gz \
-    --max-missing 1 \   # retain only sites without missing data
-    --mac 2 \           # retain only sites with minor allele count of at least 2
+    --max-missing 1 \
+    --mac 2 \
     --recode \
     --stdout | bgzip > snps_hamlets_filtered.vcf.gz
 
@@ -78,10 +78,6 @@ vcftools \
 
 ### ============================================================================
 ### Exercise 2: Calculate Fst along chromosome
-
-### Copy file to local directory (from local)
-cp ../meg23_repo/data/genome/pop.*.txt .
-
 
 ### Calculate heterozygosity and Fis for each individual
 vcftools \

@@ -13,113 +13,178 @@ ssh <account>@carl.hpc.uni-oldenburg.de
 
 
 ### Update course repository
+cd meg23_repo
 git pull
 
-# first time: git clone https://github.com/mhelmkampf/meg23_repo.git
+# first time (from ~): git clone https://github.com/mhelmkampf/meg23_repo.git
 
 
 
 ### ============================================================================
 ### Exercise 1: View and filter VCF file
 
-### Copy file to local directory
-cp ../meg23_repo/data/genome/*.gz .
+### Navigate to "local" directory (create if needed)
 
 
-### Decompress files
-gzip -d *.gz
+### Copy file to "local" directory
+cp ../meg23_repo/data/genome/snps_hamlets_lg12.vcf.gz .
 
 
-### View file in Fastq format
-cat HypPue1_illumina_raw_F.fastq
-
-head -n 4 HypPue1_illumina_raw_F.fastq   # display first 4 lines of file 
+### Decompress file
 
 
-### Count the number of sequences in file
-# use grep -c 'pattern' file
+### View file
+cat snps_hamlets_lg12.vcf
 
 
-### View and count number of sequences in PacBio reads
+### View only first 10 lines
 
 
-### How do the two types of read compare?
+### Calculate stats
+ml hpc-env/8.3 BCFtools/1.15.1-GCC-8.3.0   # load BCFtools module
+
+bgzip snps_hamlets_lg12.vcf   # re-compress file with bgzip
+tabix -p vcf snps_hamlets_lg12.vcf.gz   # index VCF file
+bcftools stats snps_hamlets_lg12.vcf.gz
 
 
+### VCFtools: command line tool to filter VCF files and run calculations on SNP data
+ml VCFtools/0.1.16-GCC-8.3.0   # load VCFtools module
 
-### ============================================================================
-### Exercise 2: Calculate assembly metrics
-
-### Copy assembly files to local
-cp /nfs/data/haex1482/shared/teaching/HypPue1.1_illumina_scf.fas.gz .
-cp /nfs/data/haex1482/shared/teaching/HypPue2.1_pacbio_pctg.fas.gz .
+# Manual: https://vcftools.github.io/man_latest.html
 
 
-### Decompress and view assembly files
+### Filter sites (rows)
+vcftools \
+    --gzvcf snps_hamlets_lg12.vcf.gz \
+    --max-missing 1 \   # retain only sites without missing data
+    --mac 2 \           # retain only sites with minor allele count of at least 2
+    --recode \
+    --stdout | bgzip > snps_hamlets_filtered.vcf.gz
 
 
-### Install assembly-stats v0.1.4 and calculate assembly stats
-ml hpc-env/8.3 Python/3.7.4-GCCcore-8.3.0   # load Python module
-pip install assembly_stats                  # use Python's pip to install
-
-assembly_stats HypPue1.1_illumina_scf.fas
-assembly_stats HypPue2.1_pacbio_pctg.fas
+### How many sites were retained after filtering?
 
 
-### Discuss the differences between the assemblies
-
-
-
-### ============================================================================
-### Exercise 3: Trim reads and assess read quality before and after
-
-### Load modules
-ml hpc-uniol-env
-ml cutadapt/1.9.1
-ml FastQC/0.11.5
-
-# FastQC: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
-
-
-### Remove adapters and low quality bases
-cutadapt -h
-
-cutadapt \
-  -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \   # adapter sequence to be removed from 3' end
-  -q 20 \                                  # minimum quality score at 3' end
-  -m 120 \                                 # minimum length after trimming
-  -o HypPue1_illumina_trimmed_F.fastq \
-  HypPue1_illumina_raw_F.fastq
-
-
-### Run FastQC, a quality control tool for high-throughput sequence reads
-fastqc HypPue1_illumina_raw_F.fastq HypPue1_illumina_raw_R.fastq
-
-
-### Re-run FastQC on trimmed reads
-
-
-### Download and view QC reports in HTML format
-scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/*.html .
-
-# Note: Run from local computer, e.g. meg23_exercises/local
+### Original code to obtain example dataset (filters by sample and chromosome id)
+# vcftools \
+#   --gzvcf $DATA/shared/3_genotypes/chapter2_phased_mac2.vcf.gz \
+#   --keep meg_36.ids \
+#   --chr LG12 \
+#   --recode \
+#   --stdout | bgzip > snps_hamlets_lg12.vcf.gz
 
 
 
 ### ============================================================================
-### Bonus: assembly code example (PacBio HiFi reads, hifiasm assembler)
+### Exercise 2: Calculate Fst along chromosome
 
-# hifiasm \
-#   -o GlaCem_hifiasm_v1 \
-#   -t 12 \
-#   $base/2_ccs/GlaCem?_ccs.fastq.gz
-
-## Convert assembly graph to fasta
-# awk '/^S/ { print ">"$2 ; print $3 }' GlaCem_hifiasm_v1.bp.p_ctg.gfa \
-#   > GlaCem_hifiasm_v1.bp.p_ctg.fas
+### Copy file to local directory (from local)
+cp ../meg23_repo/data/genome/pop.*.txt .
 
 
-### Compare multiple assemblies with Quast: http://cab.cc.spbu.ru/quast/
+### Calculate heterozygosity and Fis for each individual
+vcftools \
+  --gzvcf snps_hamlets_filtered.vcf.gz \
+  --het \
+  --stdout > Het_hamlets_snps.tsv
+
+
+### Example parameters for other calculations
+# --weir-fst-pop <file>   # Estimate Fst for populations defined in <file>
+# --hardy                 # Reports a p-value for each site from a Hardy-Weinberg Equilibrium test
+
+
+### Download files from cluster to local computer
+# Open a new git bash windows on your local computer
+# Navigate to "local" directory there
+
+scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/snps_hamlets_filtered.vcf.gz .
+scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/Het_hamlets_snps.tsv .
+
+
+
+### ============================================================================
+### Exercise 3: Plot PCA in R
+
+### Open copy of this script in R
+
+
+### Set working directory to "local" (use Files tab in bottom right panel)
+getwd()    # check working directory
+
+
+### Install / load packages
+install.packages("vcfR")
+
+library(vcfR)
+library(adegenet)
+library(tidyverse)
+
+
+### Read VCF file into R
+lg12_vcf <- read.vcfR("snps_hamlets_filtered.vcf.gz")
+lg12_vcf
+
+
+### Convert from vcfR to genlight object
+lg12_gl <- vcfR2genlight(lg12_vcf)
+
+
+### Plot genlight object
+# glPlot(lg12_gl)   # warning: computationally intense
+
+
+### Distribution of allele frequencies
+freq_lg12 <- glMean(lg12_gl)   # compute mean of alternate alleles
+
+hist(freq_lg12, breaks = 10, proba = TRUE, col = "grey",   # Shortcut for a quick histogram
+     xlab = "Allele frequencies",
+     main = "Distribution of alternate allele frequencies")
+
+
+### Principal Component Analysis (PCA)
+pca_lg12 <- glPca(lg12_gl, nf = 2)
+pca_lg12
+pca_lg12$scores   # view Principal Components (n = 2)
+
+
+### Convert to tibble, add species and location information
+scores_lg12 <- as.data.frame(pca_lg12$scores) %>%
+  rownames_to_column("Sample") %>%
+  as_tibble() %>%
+  mutate(Species = str_sub(Sample, -6, -4),
+         Location = str_sub(Sample, -3, -1)
+         )
+
+
+### Plot PCA
+(l <- ggplot(data = scores_lg12, aes(x = PC1, y = PC2, color = Species, shape = Location)) +
+  geom_point(size = 4, alpha = 0.75) +
+  labs(title = "LG12") +
+  scale_color_manual(values = c("goldenrod2", "royalblue3", "grey20", "coral2", "grey80")) +
+  theme_light(base_size = 12) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        axis.title.x = element_text(vjust = -1.5)
+        )
+)
+
+
+
+### ============================================================================
+### Exercise 4: Plot per-site Fst
+
+### Read in TSV file and add population information
+het <- read_tsv("Het_hamlets_snps.tsv") %>%
+  mutate(Species = str_sub(INDV, -6, -4),
+         Location = str_sub(INDV, -3, -1),
+         Population = str_sub(INDV, -6, -1))
+
+
+### Summarize and visualize with boxplot
+g <- ggplot() +
+    geom_boxplot()
 
 
 
@@ -131,20 +196,32 @@ mkdir local
 cd local
 
 
-### Count the number of sequences in file
-grep -c '@HWI' HypPue1_illumina_raw_F.fastq   # note: '@' is also found in quality score
-
-
-### View and count number of sequences in PacBio reads
-head -n 4 HypPue2_pacbio_ccs.fastq
-grep -c '@m54' HypPue2_pacbio_ccs.fastq
-
-
-### Decompress and view assembly files
+### Decompress file
 gzip -d *.gz
-head HypPue1.1_illumina_scf.fas
-head HypPue2.1_pacbio_pctg.fas
 
 
-### Re-run FastQC on trimmed reads
-fastqc HypPue1_illumina_trimmed_F.fastq
+### View only first 10 lines
+head snps_hamlets_lg12.vcf
+
+
+### How many sites were retained after filtering?
+tabix -p vcf snps_hamlets_filtered.vcf.gz
+bcftools stats snps_hamlets_filtered.vcf.gz
+
+
+### Summarize and visualize with boxplot
+(g <- ggplot(het, aes(x = Population, y = F, fill = Species)) +
+    geom_boxplot(color = "grey20",
+                 alpha = 0.75,
+                 lwd = 0.3) +
+    scale_fill_manual(values = c("goldenrod2", "royalblue3", "grey20", "coral2", "grey80")) +
+    labs(title = NULL,
+         x = "Population",
+         y = "Mean genome-wide Fis") +
+    theme_minimal(base_size = 12) +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank(),
+          axis.title.y = element_text(vjust = 2),
+          axis.text.x = element_text(angle = 35)
+    )
+)

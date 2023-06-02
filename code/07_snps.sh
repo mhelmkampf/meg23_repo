@@ -131,18 +131,6 @@ lg12_vcf
 lg12_gl <- vcfR2genlight(lg12_vcf)
 
 
-### Plot genlight object
-# glPlot(lg12_gl)   # warning: computationally intense
-
-
-### Distribution of allele frequencies
-freq_lg12 <- glMean(lg12_gl)   # compute mean of alternate alleles
-
-hist(freq_lg12, breaks = 10, proba = TRUE, col = "grey",   # Shortcut for a quick histogram
-     xlab = "Allele frequencies",
-     main = "Distribution of alternate allele frequencies")
-
-
 ### Principal Component Analysis (PCA)
 pca_lg12 <- glPca(lg12_gl, nf = 2)
 pca_lg12
@@ -171,6 +159,15 @@ scores_lg12 <- as.data.frame(pca_lg12$scores) %>%
 )
 
 
+### Plot eigenvalues (proportion of variance explained by each PC)
+pca_lg12$eig
+
+var <- pca_lg12$eig / sum(pca_lg12$eig)
+
+barplot(var, main = "Proportion of variance explained", las = 2)
+
+
+
 
 ### ============================================================================
 ### Exercise 4: Plot per-site Fst
@@ -185,6 +182,18 @@ het <- read_tsv("Het_hamlets_snps.tsv") %>%
 ### Summarize and visualize with boxplot
 g <- ggplot() +
     geom_boxplot()
+
+
+
+### ============================================================================
+### Bonus material
+
+### Distribution of allele frequencies
+# freq_lg12 <- glMean(lg12_gl)   # compute mean of alternate alleles
+# 
+# hist(freq_lg12, breaks = 10, proba = TRUE, col = "grey",   # Shortcut for a quick histogram
+#      xlab = "Allele frequencies",
+#      main = "Distribution of alternate allele frequencies")
 
 
 

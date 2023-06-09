@@ -3,7 +3,8 @@
 ### 08. Recombination and linkage disequilibrium                             ###
 ### ======================================================================== ###
 
-### Open a copy of this script in R
+# *** This script contains both R and bash code, but will be in R unless noted 
+# *** otherwise. We start in R
 
 ### Set working directory to "local" (use Files tab in bottom right panel)
 getwd()    # check working directory
@@ -11,7 +12,7 @@ getwd()    # check working directory
 
 
 ### ============================================================================
-### Exercise 1: Plot SNPs as PCA in R
+### Exercise 1: Plot SNPs as PCA
 
 ### Install / load packages
 install.packages("vcfR")
@@ -21,14 +22,14 @@ library(adegenet)
 library(tidyverse)
 
 
-# We filtered and downloaded a VCF file with hamlet SNPs to "local" last time:
+# We filtered and downloaded a VCF file with hamlet SNPs to "local" last time (bash code):
 
 # vcftools \
-# --gzvcf snps_hamlets_lg12.vcf.gz \
-# --max-missing 1 \
-# --mac 2 \
-# --recode \
-# --stdout | bgzip > snps_hamlets_filtered.vcf.gz
+#   --gzvcf snps_hamlets_lg12.vcf.gz \
+#   --max-missing 1 \
+#   --mac 2 \
+#   --recode \
+#   --stdout | bgzip > snps_hamlets_filtered.vcf.gz
 
 # scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/snps_hamlets_filtered.vcf.gz .
 
@@ -86,21 +87,21 @@ barplot(var,
 
 
 ### ============================================================================
-### Exercise 2: Plot per-population Fis from genome-wide Fis per individuum
+### Exercise 2: Plot per-population Fis from SNP-based Fis per individuum
 
-# We calculated heterozygosity and Fis from the hamlet SNPs last time:
+# We calculated heterozygosity and Fis from the hamlet SNPs last time (bash code):
 
 # vcftools \
-# --gzvcf snps_hamlets_filtered.vcf.gz \
-# --het \
-# --stdout > Het_hamlets_snps.tsv
+#   --gzvcf snps_hamlets_filtered.vcf.gz \
+#   --het \
+#   --stdout > Het_hamlets_snps.tsv
 
 # scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/Het_hamlets_snps.tsv .
 
 # The file can also found be in meg23_repo/data/genome
 
 
-### Read in TSV file and add population information
+### Read TSV file into R and add population information
 het <- read_tsv("Het_hamlets_snps.tsv") %>%
   mutate(Species = str_sub(INDV, -6, -4),
          Location = str_sub(INDV, -3, -1),
@@ -130,7 +131,9 @@ f +
 ### ============================================================================
 ### Exercise 3: Filter VCF by linkage
 
-### Connect to HPC cluster from a terminal (e.g. git bash)
+# *** Now we open a terminal (e.g. git bash) and switch to bash
+
+### Connect to HPC cluster 
 ssh <account>@carl.hpc.uni-oldenburg.de
 
 # Account ids and passwords can be found on StudIP in Files | course_accounts.csv
@@ -155,16 +158,16 @@ ml hpc-env/8.3 BCFtools/1.15.1-GCC-8.3.0   # load BCFtools module
 bcftools +prune
 
 
-### Prune by a physical distance that guarantees loci are independent (compare to decay plot)
-bcftools +prune snps_hamlets_filtered.vcf.gz \
-  -n 1 -w 2kb \
-  -Oz -o snps_hamlets_2kb.vcf.gz
+### Prune by physical distance so that loci are mostly independent (compare to decay plot)
 
 
 ### Prune by LD (r2)
 bcftools +prune snps_hamlets_filtered.vcf.gz \
-  -m 0.4 \   # default window size is 100kb
+  -m 0.4 \
   -Oz -o snps_hamlets_04r.vcf.gz
+
+
+### How many sites are left in each dataset?
 
 
 ### Calculate r2 and D statistics with VCFtools
@@ -173,27 +176,35 @@ ml VCFtools/0.1.16-GCC-8.3.0
 # Manual: https://vcftools.github.io/man_latest.html
 
 vcftools --gzvcf snps_hamlets_filtered.vcf.gz \
+  --chr LG12 \
+  --from-bp 1 \
+  --to-bp 50000 \
   --hap-r2 \
-  --ld-window-bp 10000 \
-  --stdout | head -n 10000 > LD_snps_hamlets_filtered.tsv
+  --stdout > LD_snps_hamlets_filtered.tsv
 
 vcftools --gzvcf snps_hamlets_2kb.vcf.gz \
+  --chr LG12 \
+  --from-bp 1 \
+  --to-bp 50000 \
   --hap-r2 \
-  --ld-window-bp 10000 \
-  --stdout | head -n 10000 > LD_snps_hamlets_2kb.tsv
+  --stdout > LD_snps_hamlets_2kb.tsv
 
 vcftools --gzvcf snps_hamlets_04r.vcf.gz \
+  --chr LG12 \
+  --from-bp 1 \
+  --to-bp 50000 \
   --hap-r2 \
-  --ld-window-bp 10000 \
-  --stdout | head -n 10000 > LD_snps_hamlets_04r.tsv
+  --stdout > LD_snps_hamlets_04r.tsv
 
 
-# scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/LD* .
+scp <account>@carl.hpc.uni-oldenburg.de:/user/<account>/local/LD* .
 
+
+# *** Here we switch back to R
 
 ### Plot r2 and D statistics
 
-## Read in stats from vcftools output
+### Read in stats from vcftools output
 un <- read_tsv("LD_snps_hamlets_filtered.tsv") %>%
   rename(r2 = `R^2`) %>%
   mutate(Set = "Un") %>%
@@ -210,21 +221,24 @@ ld <- read_tsv("LD_snps_hamlets_04r.tsv") %>%
   select(r2, Dprime, Set)
 
 
-## Plot r2
-boxplot(un$r2, kb$r2, ld$r2, names = c("Un", "Kb", "Ld"), ylab = "r2")   # quick boxplot
-boxplot(un$r2, kb$r2, ld$r2, names = c("Un", "Kb", "Ld"), ylab = "r2", outline = FALSE)   # without outliers
+### Plot r2 (quick boxplot)
+boxplot(un$r2, kb$r2, ld$r2, 
+        names = c("Un", "Kb", "Ld"), 
+        ylab = "r2",
+        ylim = c(0, 0.1),
+        outline = FALSE)   # without outliers
 
 
-## Exercise: Plot D'
+### Plot D'
 
 
-## Optional: Plot r2 using ggplot
-
+### Add zero line for interpretation
+abline(h = 0, col = "red")
 
 
 
 ### ============================================================================
-### Exercise 4: Estimate Ne using heterozygote excess
+### Exercise 4: Estimate Ne using heterozygote excess with NeEstimator
 
 ### Unzip NeEstimator.zip in meg23_repo/other and move new program directory to local
 ### There, execute Ne2-1.exe (or Ne2M on Mac) through terminal or double-click
@@ -235,8 +249,7 @@ boxplot(un$r2, kb$r2, ld$r2, names = c("Un", "Kb", "Ld"), ylab = "r2", outline =
 ### Results will be saved in local/NeEstimator
 
 
-### Compare these results to the results based on heterozygote excess (see 03_drift.R)
-
+### Compare these results to those based on heterozygote excess (local/NeEstimator/NeHet_caribbean.txt)
 
 
 
@@ -246,8 +259,8 @@ boxplot(un$r2, kb$r2, ld$r2, names = c("Un", "Kb", "Ld"), ylab = "r2", outline =
 ### Test for linkage disequilibrium between microsatellite loci (G-test)
 library(genepop)
 
-test_LD("../meg23_repo/data/msats/puella_caribbean.txt", outputFile = "LD_msats_caribbean.txt")
-test_LD("../meg23_repo/data/msats/hamlets_caribbean.txt", outputFile = "LD_msats_hamlets.txt")
+test_LD("../meg23_repo/data/msats/puella_caribbean.txt", outputFile = "LDtest_msats_caribbean.txt")
+test_LD("../meg23_repo/data/msats/hamlets_caribbean.txt", outputFile = "LDtest_msats_hamlets.txt")
 
 # Null hypothesis: loci are independent
 
@@ -256,26 +269,17 @@ test_LD("../meg23_repo/data/msats/hamlets_caribbean.txt", outputFile = "LD_msats
 ### ============================================================================
 ### Solutions
 
+### Prune by physical distance so that loci are mostly independent (compare to decay plot, bash code)
+bcftools +prune snps_hamlets_filtered.vcf.gz \
+  -n 1 -w 2kb \
+  -Oz -o snps_hamlets_2kb.vcf.gz
 
 
-### How many sites were retained after filtering?
-tabix -p vcf snps_hamlets_filtered.vcf.gz
-bcftools stats snps_hamlets_filtered.vcf.gz
+### Plot D' (R code)
+boxplot(un$Dprime, kb$Dprime, ld$Dprime, 
+        names = c("Un", "Kb", "Ld"), 
+        ylab = "Dprime")
 
 
-### Summarize and visualize with boxplot
-(g <- ggplot(het, aes(x = Population, y = F, fill = Species)) +
-    geom_boxplot(color = "grey20",
-                 alpha = 0.75,
-                 lwd = 0.3) +
-    scale_fill_manual(values = c("goldenrod2", "royalblue3", "grey20", "coral2", "grey80")) +
-    labs(title = NULL,
-         x = "Population",
-         y = "Mean genome-wide Fis") +
-    theme_minimal(base_size = 12) +
-    theme(panel.grid.minor = element_blank(),
-          panel.grid.major.x = element_blank(),
-          axis.title.y = element_text(vjust = 2),
-          axis.text.x = element_text(angle = 35)
-    )
-)
+### NeEstimator: Provide path to input file puella_caribbean.gen when prompted
+../../meg23_repo/data/msats/puella_caribbean.txt

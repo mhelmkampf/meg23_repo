@@ -26,15 +26,15 @@ library(tidyverse)
 
 
 ### Read in stats from VCFtools output
-unf <- read_tsv("LD_snps_hamlets_filtered.tsv") %>%
+unf <- read_tsv("../meg23_repo/data/genome/LD_snps_hamlets_filtered.tsv") %>%
   rename(r2 = `R^2`) %>%
   mutate(Set = "Unf")
 
-kb <- read_tsv("LD_snps_hamlets_2kb.tsv") %>%
+kb <- read_tsv("../meg23_repo/data/genome/LD_snps_hamlets_2kb.tsv") %>%
   rename(r2 = `R^2`) %>%
   mutate(Set = "Kb")
 
-ld <- read_tsv("LD_snps_hamlets_04r.tsv") %>%
+ld <- read_tsv("../meg23_repo/data/genome/LD_snps_hamlets_04r.tsv") %>%
   rename(r2 = `R^2`) %>%
   mutate(Set = "Ld")
 

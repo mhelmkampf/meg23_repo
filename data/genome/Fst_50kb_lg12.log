@@ -1,0 +1,30 @@
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--gzvcf snps_hamlets_filtered.vcf.gz
+	--fst-window-size 50000
+	--fst-window-step 5000
+	--weir-fst-pop pop.gumhon.txt
+	--weir-fst-pop pop.indbel.txt
+	--weir-fst-pop pop.nigbel.txt
+	--weir-fst-pop pop.nighon.txt
+	--weir-fst-pop pop.puebel.txt
+	--weir-fst-pop pop.unibel.txt
+	--keep pop.gumhon.txt
+	--keep pop.indbel.txt
+	--keep pop.nigbel.txt
+	--keep pop.nighon.txt
+	--keep pop.puebel.txt
+	--keep pop.unibel.txt
+	--stdout
+
+Using zlib version: 1.2.11
+Keeping individuals in 'keep' list
+After filtering, kept 36 out of 36 Individuals
+Outputting Windowed Weir and Cockerham Fst estimates.
+Weir and Cockerham mean Fst estimate: 0.042781
+Weir and Cockerham weighted Fst estimate: 0.050727
+After filtering, kept 219354 out of a possible 219354 Sites
+Run Time = 1.00 seconds

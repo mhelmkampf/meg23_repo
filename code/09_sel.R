@@ -158,7 +158,7 @@ out <- win %>%
 )
 
 
-### Retrieve window positions of peaks
+### Retrieve positions of windows containing Fst peaks
 max(win$WEIGHTED_FST)
 print(out %>% filter(OUTLIER == "yes"), n = nrow(out))
 
@@ -177,7 +177,7 @@ print(out %>% filter(OUTLIER == "yes"), n = nrow(out))
 # --stdout | gzip > region1.vcf.gz
 
 
-### Calculate Fst-based PCA of outlier region (region 1)
+### Calculate PCA of outlier region (region 1)
 library(vcfR)
 library(adegenet)
 
@@ -193,7 +193,7 @@ scores_region1 <- as.data.frame(pca_region1$scores) %>%
   as_tibble()
 
 
-### Plot region-specific PCA
+### Plot PCA
 (r1 <- ggplot(data = scores_region1, aes(x = PC1, y = PC2, color = Species)) +
   geom_point(size = 4, alpha = 0.75) +
   labs(title = "Region 1 (LG12, ~20.2 kb)") +

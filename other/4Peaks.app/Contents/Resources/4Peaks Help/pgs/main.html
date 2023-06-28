@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>4Peaks Help</title>
+	<link rel="StyleSheet" type="text/css" href="style.css">
+	<meta name="AppleIcon" content="../gfx/icon_32x32.png">
+	<meta name="Copyright" content="Copyright 2004-2015 Nucleobytes, All Rights Reserved.">
+</head>
+
+<body bgcolor="#ffffff" link="#666666" vlink="#666666">
+	<div id="background-logo" class="center"></div>
+	<table border="0" cellpadding="1" cellspacing="0" width="100%" class="menu">
+		<tr>
+			<td><center><a href="quickstart.html"><font size="2">Quick start</font></a></center></td>
+			<td class="current"><center><a href="main.html"><font size="2">Main Window</font></a></center></td>
+			<td><center><a href="file.html"><font size="2">File Menu</font></a></center></td>
+			<td><center><a href="edit.html"><font size="2">Edit Menu</font></a></center></td>
+			<td><center><a href="plugins.html"><font size="2">Plugins</font></a></center></td>
+		</tr>
+		<tr>
+			<td><center><a href="sequencing.html"><font size="2">Sequencing</font></a></center></td>
+			<td><center><a href="troubles.html"><font size="2">Troubleshooting</font></a></center></td>
+			<td><center><a href="history.html"><font size="2">Sequencing History</font></a></center></td>
+			<td><center><a href="nucleobytes.html"><font size="2">About Nucleobytes</font></a></center></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<br>
+	
+	<div class="page-header">
+	<table border="0" cellpadding="1" cellspacing="0" width="100%">
+		<tr height="40">
+			<td width="40" height="40"><img height="40" width="40" src="../gfx/icon_64x64.png"></td>
+			<td width="6" height="40"></td>
+			<td height="40" valign="middle">
+				<font size="4" color="#ff71a5">4Peaks Main Window &amp; Preferences</font>
+			</td>
+		</tr>
+	</table>
+	</div>
+	
+	<br>
+	<!-- AppleSegStart="4Peaks Help Index" -->
+	<!-- AppleSegDescription="This section is about the Main Window of 4Peaks and the 4Peaks Menu including preferences." --> 
+	<!-- AppleKeywords="preference, preferences, window, action, actions, buttons, button, 4Peaks, sequence, drawer, drawers, quality, blocks, qaulity" --> 
+	<p class="main-text">Figure 1 shows the main window of 4Peaks. The <a href="#actions">actions</a> button is located in the lower left corner, more to the right the slider for the <a href="#zoom">zoom</a> function. The <a href="#quality">quality</a>, <a href="#speech">speech</a> and <a href="#drawer">sequence information</a> buttons can be found in the lower right corner. The <a href="#search">search</a> function is positioned in the upper right corner.</p>
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/main_window.png" width="400"><br>
+		<p>Figure 1. 4Peaks main window</p>
+	<div>
+	</center>
+		
+	<br>
+	
+	<span class="section-header"><a name="actions" id="actions"><font color="#FF71A5">Action Button</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		In the actions menu you will find options to edit your sequence data. In 4Peaks you can edit , insert, and delete bases. You are also able to crop your sequence to the region you are interested in, or to the region which is still readable.<br>
+			<br>
+		Because sequence reactions can be performed with sense and anti-sense primers, the results will also be generated in a sense and a reverse complement<br>
+			<br>
+		Due to the differences in amino acid condon usage between species, you can set your preferred translation dictionary, amino acids are appointed according to the species you are interested in. The frame your sequence is translated in can be set with the 'Set Frame' button just besides the speech button. See figure 3.<br>
+			<br>
+			You can BLAST your sequence against one of the selectable genomes, do a MegaBLAST or BLAST 2 sequences against eachother with the help of the BLAST option.<br>
+			<br>
+	</p>
+	
+	<p class="main-text">
+		<i>Remarks:</i>
+		<br>
+		<ol>
+			<li>Most functions found in the menu when you push the button can also be accessed via shortcut keys and via the edit menu.</li>
+			<br>
+			<li>Sequence files opened in ABI, ALF, CTF and BIO format cannot be saved as such files again after editing.</li>
+		</ol>
+	</p>
+	
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/action_menu.png" width="150"><br>
+		<p>Figure 2. The Action button menu</p>
+	<div>
+	</center>
+	
+	<br>
+	
+	<span class="section-header"><a name="zoom" id="zoom"><font color="#FF71A5">Zoom Function</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		Some bases in sequence files are positioned very close to each other. 4Peaks has a zoom option so you are able to stretch or crop you sequences to have a better overview. The maximum zoom factor for zoom in and zoom out is 2. Horizontal zoom is the default option, but you can also zoom verticalliy by pressing the <i>Shift key</i> as you slide the zoom slider.
+	</p>
+
+	<br>
+	
+	<span class="section-header"><a name="quality" id="quality"><font color="#FF71A5">Quality Function</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		Some file types (ABI/SCF) support quality data. The quality data will be shown along with the sequence. Preferences for the quality function can be set in the <a href="#preferences">preferences</a> section under the 'traces' tab. The Quality data button alows you to show/hide the quality data and to set a treshold for your data. In the latter case, a window will pop-up and let you set the preferred treshold with the slider on the left. You can view the data again, bad quality will get a red mask; good quality will remain white, or you can crop the file to the position you think still contains good quality data.
+	</p>
+	
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/quality.png" width="299"><br>
+		<p>Figure 3. Set quality data</p>
+	<div>
+	</center>
+	
+	<br>
+	
+	<span class="section-header"><a name="speech" id="speech"><font color="#FF71A5">Speech Function</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		Because BLASTing a sequence can be a time consuming process, sometimes you just want to compare a small part of your obtained sequence with a template sequence. 4Peaks has the opportunity to let your sequence file be spoken, so you can read the template file along on your computer or on a paper hardcopy. To start the speech function, select the base you want to start with and press <i>spacebar</i> or the speech button of the main window. Preferences for the speech function can be set in the <a href="#preferences">preferences</a> section.
+	</p>
+
+	<br>
+	
+	<span class="section-header"><a name="drawer" id="drawer"><font color="#FF71A5">Info Drawer</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		The drawer can be opened by clicking on one of the three drawer buttons: sequence; translation; information. The drawer will slide out of the main window and text format sequence and translation are immediately ready. The translation frame can be set using the 'Set Frame' button, see figure 4.
+	</p>
+	
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/translation-frame.png" width="150"><br>
+		<p>Figure 4. Set translation frame</p>
+	<div>
+	</center>
+	
+	<br>
+	
+	<span class="section-header"><a name="search" id="search"><font color="#FF71A5">Search function</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		In 4Peaks you can search within your sequence and within the translation of the sequence. To search in either of one, select the right option within the search oval (see figure 5) and start typing the sequence you are looking for. If the sequence is present in the sequence file it will be selected automatically in the main window, but also in the drawer when it is open.
+	</p>
+	
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/search.png" width="150"><br>
+		<p>Figure 5. Search feature</p>
+	<div>
+	</center>
+	
+	<br>
+	
+	<!-- AppleSegEnd -->
+	<!-- AppleSegStart="4PeaksPreferences" -->
+	<!-- AppleSegDescription="This section is about the Main Window of 4Peaks and the 4Peaks Menu including preferences." --> 
+	<!-- AppleKeywords="preference, preferences, background, substraction, scaling, scale, conversion, saving, updates, BLAST" -->
+				
+	<span class="section-header"><a name="preferences" id="preferences"><font color="#FF71A5">Preferences</font></a></span>
+	<br>
+	
+	<p class="main-text">
+		4Peaks gives you the opportunity to set some preferred options in five categories:<br>
+		<ul>
+			<li>General. For automated version check and your preferred BLAST setting.</li>
+			<br>
+			<li>Data. For conversions (wrinting to ABI, ALF, CTF and BIO formats is not supported), scaling and background substraction.</li>
+			<br>
+			<li>Traces. For base colors and selction options.</li>
+			<br>
+			<li>Translation. Amino acid usage, 1 or 3 letter code, and default translation dictionary.</li>
+			<br>
+			<li>BLAST. Set your preferred BLAST type and BLAST server.</li>
+			<br>
+			<li>Speech. Select the speed and voice for the speech option. Optional: use (editable) words in stead of letters only. Words should start with either A, T, C, or G!</li>
+			<br>
+			<li>Motifs. Set your default search type and manage &amp; create your search motifs.</li>
+			<br>
+			<li>Plugins. Manage your plugins. For more information see <a href="plugins.html">Plugins</a>.</li>
+		</ul>
+	</p>
+	
+	<br>
+	
+	<center>
+	<div class="screenshot">
+		<img src="../gfx/preferences.png" width="400"><br>
+		<p>Figure 6. Preference options</p>
+	<div>
+	</center>
+	
+	<br>
+	<br>
+	
+	<table border="0" width="100%">
+		<tr> 
+			<td bgcolor="#c0c0c0" height="3"></td>
+		</tr>
+	</table>
+
+	<br>
+
+	<table border="0" cellpadding="1" cellspacing="0" width="100%" class="menu">
+		<tr>
+			<td><center><a href="quickstart.html"><font size="2">Quick start</font></a></center></td>
+			<td class="current"><center><a href="main.html"><font size="2">Main Window</font></a></center></td>
+			<td><center><a href="file.html"><font size="2">File Menu</font></a></center></td>
+			<td><center><a href="edit.html"><font size="2">Edit Menu</font></a></center></td>
+			<td><center><a href="plugins.html"><font size="2">Plugins</font></a></center></td>
+		</tr>
+		<tr>
+			<td><center><a href="sequencing.html"><font size="2">Sequencing</font></a></center></td>
+			<td><center><a href="troubles.html"><font size="2">Troubleshooting</font></a></center></td>
+			<td><center><a href="history.html"><font size="2">Sequencing History</font></a></center></td>
+			<td><center><a href="nucleobytes.html"><font size="2">About Nucleobytes</font></a></center></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<br>
+<!-- AppleSegEnd -->
+</body>
+</html>

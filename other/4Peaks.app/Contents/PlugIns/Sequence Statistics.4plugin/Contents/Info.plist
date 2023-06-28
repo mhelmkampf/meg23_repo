@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>4PauthorContact</key>
+	<string>feedback@mekentosj.com</string>
+	<key>4PauthorName</key>
+	<string>Mekentosj</string>
+	<key>4PpluginDescription</key>
+	<string>Shows statistics about your sequence</string>
+	<key>BuildMachineOSBuild</key>
+	<string>11G63</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Sequence Statistics</string>
+	<key>CFBundleIconFile</key>
+	<string>plugin</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.mekentosj.seqstats</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>MTPX</string>
+	<key>CFBundleVersion</key>
+	<string>1.5</string>
+	<key>DTCompiler</key>
+	<string></string>
+	<key>DTPlatformBuild</key>
+	<string>4H1003</string>
+	<key>DTPlatformVersion</key>
+	<string>GM</string>
+	<key>DTSDKBuild</key>
+	<string>11E52</string>
+	<key>DTSDKName</key>
+	<string>macosx10.7</string>
+	<key>DTXcode</key>
+	<string>0462</string>
+	<key>DTXcodeBuild</key>
+	<string>4H1003</string>
+	<key>NSMainNibFile</key>
+	<string>Stats.nib</string>
+	<key>NSPrincipalClass</key>
+	<string>mtSeqStats</string>
+</dict>
+</plist>

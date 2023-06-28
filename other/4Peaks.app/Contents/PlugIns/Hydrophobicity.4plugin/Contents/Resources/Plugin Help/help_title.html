@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+	<head>
+                <META NAME="AppleTitle" CONTENT="Plugin Help">
+		<META NAME="AppleIcon" CONTENT="Plugin%20Help/RMPhelp_icon.png">
+		<meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
+		<meta name="generator" content="Adobe GoLive 6">
+                <title>Plugin Help</title>
+	</head>
+
+	<body bgcolor="#ffffff">
+		<CENTER></CENTER>
+		<CENTER><H1><IMG SRC="graphics/plugin_icon.gif">Background on Hydrophobicity Plots</H1></CENTER>
+		<HR>
+		<P><B>Hydrophobicity (or hydrophilicity) plots are designed to display the distribution of polar and apolar residues along a protein sequence.</B>  Most commonly, such analysis has the goal of predicting membrane-spanning segments (highly hydrophobic) or regions that are likely exposed on the surface of proteins (hydrophilic domains) and therefore potentially antigenic.
+</P>
+		<P>To generate data for a plot, the protein sequence is scanned with a moving window of some size. At each position, the mean hydrophobic index of the amino acids within the window is calculated and that value plotted as the midpoint of the window. Several scales of hydrophobicity have been developed, most of which were derived from experimental studies on partitioning of peptides in apolar and polar solvents. Two of the most commonly used hydrophobicity scales are incorporated into this plugin:</P>
+<UL>
+<LI><B><FONT COLOR=BLUE>Kyte-Doolittle scale</FONT></B>: <I>Hydropathic regions achieve a positive value</I>. Setting <b>window size to 5-7</b> is suggested to be a good value for finding putative surface-exposed regions, whereas a <b>window size of 19-21</b> yields a plot in which transmembrane domains stand out sharply, with values of at least 1.6 at their centers.<BR>
+				<BR>
+			
+			
+			
+			
+				
+			
+			
+			
+			
+<LI><B><FONT COLOR=BLUE>Hopp-Woods scale</FONT></B>: This scale was developed for predicting potential antigenic sites of globular proteins, which are likely to be rich in charged and polar residues. <I>This scale is essentially a hydrophilic index</I>, with apolar residues assigned negative values. The authors suggest that, using <b>a window size of 6</b>, the region of maximal hydrophilicity is likely to be an antigenic site.</UL>
+		<CENTER><TABLE WIDTH = 400 CELLPADDING = 3>
+<TR BGCOLOR=YELLOW><TH>Hydrophobicity Scales</TH></TR>
+<TR><TD><PRE>
+              Kyte-Doolittle  Hopp-Woods
+
+Alanine             1.8          -0.5
+Arginine           -4.5           3.0
+Asparagine         -3.5           0.2
+Aspartic acid      -3.5           3.0
+Cysteine            2.5          -1.0
+Glutamine          -3.5           0.2
+Glutamic acid      -3.5           3.0
+Glycine            -0.4           0.0
+Histidine          -3.2          -0.5
+Isoleucine          4.5          -1.8
+Leucine             3.8          -1.8
+Lysine             -3.9           3.0
+Methionine          1.9          -1.3
+Phenylalanine       2.8          -2.5
+Proline            -1.6           0.0
+Serine             -0.8           0.3
+Threonine          -0.7          -0.4
+Tryptophan         -0.9          -3.4
+Tyrosine           -1.3          -2.3
+Valine              4.2          -1.5
+</PRE></TD></TR>
+</TABLE></CENTER>
+		<HR>
+		<div align="left">
+			<b>References</b></div>
+		<P>Hoop TP and Woods KR: Prediction of protein antigenic determinants from amino acid sequences.  Proc Natl Acad Sci USA 78:3824, 1981.
+</P>
+		<P>Kyte J and Doolittle RF: A simple method for displaying the hydropathic character of a protien.  J Mol Biol 157:105, 1982.
+</P>
+
+		<p></p>
+		<hr>
+		<b>Copyright Notice</b>
+		<p>This plugin uses the SM2DGraphView framework:</p>
+		<p>Copyright 2002-2003 Snowmint Creative Solutions LLC.<br>
+			 http://www.snowmintcs.com/</p>
+	</body>
+
+</html>

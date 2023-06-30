@@ -19,7 +19,7 @@ cp meg23_repo/data/barcode/*.ab1 .
 
 
 ### ============================================================================
-### Exercise 1: Extract COI barcode from Sanger trace files
+### Exercise 1: Extract COI barcodes from Sanger trace files
 
 ### Background – PCR / sequencing primer cocktail used for COI:
 
@@ -30,7 +30,8 @@ cp meg23_repo/data/barcode/*.ab1 .
 # FR1d_t1   caggaaacagctatgacACCTCAGGGTGTCCGAARAAYCARAA
 
 # Amplifies approx. 650 bp fragment in 5' region of COI
-# M13-tailed primers (Ivanova et al. 2007, Molecluar Ecology Notes, lower case = tail)
+# Primers are M13-tailed to allow DNA sequencing
+# (Ivanova et al. 2007, Molecluar Ecology Notes, lower case = tail)
 
 
 ### View trace files
@@ -78,7 +79,7 @@ cp meg23_repo/data/barcode/*.ab1 .
 # Select Identification, Animal Identification (COI), Species Level Barcode Records
 # Enter barcode sequence and submit
 
-# How confident can you be in the identification based on similarity score, 
+# How confident are you in the identification based on similarity score, 
 # and the gap between within-BIN and NN distances (see BIN page)?
 
 # Optinally, explore species and tree pages
@@ -86,7 +87,7 @@ cp meg23_repo/data/barcode/*.ab1 .
 
 
 ### ============================================================================
-### Bonus material: Process sequence files on cluster using loops
+### Bonus material: Process sequence files on cluster using bash loops
 
 ### Connect to HPC cluster
 ssh <account>@carl.hpc.uni-oldenburg.de
@@ -99,7 +100,7 @@ git pull
 # first time (from ~): git clone https://github.com/mhelmkampf/meg23_repo.git
 
 
-### Copy sequence text files to local
+### Copy sequence text files to local working directory
 cd ../local
 rm *
 cp ../meg23_repo/data/barcode/*.txt .
@@ -178,9 +179,9 @@ cat *.con > co1.fas
 # 14: Platichthys flesus (European flounder / Flunder) or Pleuronectes sp., 100%, no barcode gap
 # 15: Gadus chalcogrammus (Alaska pollock / Paz. Pollack), 100%, see above, small barcode gap
 # 19: Gadus chalcogrammus (Alaska pollock / Paz. Pollack), 100%, see above, small barcode gap
-# 20: Platichthys flesus (European flounder / Flunder) or Pleuronectes sp., 100%, see above
+# 20: Platichthys flesus (European flounder / Flunder) or Pleuronectes sp., 100%, small barcode gap
 # 22: Gadus morhua (Atlantic cod / Kabeljau), 100%, small barcode gap
 # 26: Gadus morhua (Atlantic cod / Kabeljau), 100%, small barcode gap
-# 27
-# 28
-# 35
+# 27:
+# 28:
+# 35:

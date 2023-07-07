@@ -14,7 +14,7 @@
 # Executable provided in meg23_repo/other
 
 # Copy trace files to local working directory
-cp meg23_repo/data/barcode/*.ab1 .
+cp ../meg23_repo/data/barcode/*.ab1 .
 
 
 
